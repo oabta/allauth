@@ -1,0 +1,7 @@
+{
+  "name": "@oabta/allauth",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
