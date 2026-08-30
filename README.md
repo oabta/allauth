@@ -44,7 +44,7 @@ function App() {
 }
 ```
 
-## Practical Examples
+## Authentication Workflows
 
 ### 1. Login Mutation (TanStack Query)
 ```tsx
@@ -60,18 +60,7 @@ function LoginForm() {
 }
 ```
 
-### 2. Protected Route (TanStack Router)
-```tsx
-// src/routes/dashboard.tsx
-import { createFileRoute } from '@tanstack/react-router';
-import { createAuthRouteGuard } from '@oabta/allauth/react/router/authGuard';
-import { queryClient } from '../queryClient'; 
-
-export const Route = createFileRoute('/dashboard')({
-  beforeLoad: createAuthRouteGuard(queryClient),
-  component: Dashboard,
-});
-### 3. Additional Auth Workflows
+### 2. Sign-up, Reset Password, & Verification
 ```tsx
 // Signup
 const signupMutation = useSignupMutation();
@@ -85,6 +74,21 @@ resetMutation.mutate({ email });
 const verifyMutation = useEmailVerificationMutation();
 verifyMutation.mutate({ key: 'verification-key' });
 ```
+
+### 3. Protected Route (TanStack Router)
+```tsx
+// src/routes/dashboard.tsx
+import { createFileRoute } from '@tanstack/react-router';
+import { createAuthRouteGuard } from '@oabta/allauth/react/router/authGuard';
+import { queryClient } from '../queryClient'; 
+
+export const Route = createFileRoute('/dashboard')({
+  beforeLoad: createAuthRouteGuard(queryClient),
+  component: Dashboard,
+});
+```
+
+## Development
 - **Build**: `npm run build`
 - **Lint**: `npm run lint`
 - **Test**: `npm test`
