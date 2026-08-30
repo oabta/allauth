@@ -1,8 +1,8 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AllauthTransport } from '@browser/transport';
-import { AllauthProvider } from '@react/context/AllauthProvider';
-import { useLoginMutation } from '@react/hooks/auth/useLoginMutation';
+import { AllauthTransport } from '@/browser/transport';
+import { AllauthProvider } from '@/react/context/AllauthProvider';
+import { useLoginMutation } from '@/react/hooks/auth/useLoginMutation';
 import { vi, describe, it, expect } from 'vitest';
 
 describe('useLoginMutation', () => {

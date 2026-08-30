@@ -1,11 +1,9 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useAllauth } from 'src/react/context/AllauthProvider';
-import { SignupRequest, VerifyEmailRequest, RequestPasswordRequest, ResetPasswordRequest } from 'src/browser/types';
-import { AllAuthApi } from 'src/browser/index';
+import { useMutation } from '@tanstack/react-query';
+import { useAllauth } from '@/react/context/AllauthProvider';
+import { SignupRequest, VerifyEmailRequest, RequestPasswordRequest, ResetPasswordRequest } from '@/browser/types';
 
 export const useSignupMutation = () => {
-  const { transport, queryClient } = useAllauth();
-  const api = new AllAuthApi(transport);
+  const { api, queryClient } = useAllauth();
   return useMutation({
     mutationFn: (data: SignupRequest) => api.signup(data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['auth', 'session'] }),
@@ -13,8 +11,7 @@ export const useSignupMutation = () => {
 };
 
 export const useLogoutMutation = () => {
-  const { transport, queryClient } = useAllauth();
-  const api = new AllAuthApi(transport);
+  const { api, queryClient } = useAllauth();
   return useMutation({
     mutationFn: () => api.logout(),
     onSuccess: () => queryClient.setQueryData(['auth', 'session'], null),
@@ -22,24 +19,21 @@ export const useLogoutMutation = () => {
 };
 
 export const useVerifyEmailMutation = () => {
-  const { transport } = useAllauth();
-  const api = new AllAuthApi(transport);
+  const { api } = useAllauth();
   return useMutation({
     mutationFn: (key: string) => api.verifyEmail(key),
   });
 };
 
 export const useRequestPasswordResetMutation = () => {
-  const { transport } = useAllauth();
-  const api = new AllAuthApi(transport);
+  const { api } = useAllauth();
   return useMutation({
     mutationFn: (email: string) => api.requestPassword(email),
   });
 };
 
 export const useResetPasswordMutation = () => {
-  const { transport } = useAllauth();
-  const api = new AllAuthApi(transport);
+  const { api } = useAllauth();
   return useMutation({
     mutationFn: ({ key, password }: { key: string; password: string }) => 
       api.resetPassword(key, password),
