@@ -39,3 +39,31 @@ export const useResetPasswordMutation = () => {
       api.resetPassword(key, password),
   });
 };
+
+export const useAuthenticate2FAMutation = () => {
+  const { api } = useAllauth();
+  return useMutation({
+    mutationFn: (code: string) => api.authenticate2FA(code),
+  });
+};
+
+export const useTrustBrowserMutation = () => {
+  const { api } = useAllauth();
+  return useMutation({
+    mutationFn: (trust: boolean) => api.trustBrowser(trust),
+  });
+};
+
+export const useRequestLoginCodeMutation = () => {
+  const { api } = useAllauth();
+  return useMutation({
+    mutationFn: (data: any) => api.requestLoginCode(data),
+  });
+};
+
+export const useConfirmLoginCodeMutation = () => {
+  const { api } = useAllauth();
+  return useMutation({
+    mutationFn: (code: string) => api.confirmLoginCode(code),
+  });
+};
