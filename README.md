@@ -86,6 +86,19 @@ export const Route = createFileRoute('/dashboard')({
 - **Session Validation**: It utilizes `queryClient.ensureQueryData` to check if a valid session exists.
 - **Automatic Redirects**: If no session is found, it throws a `redirect` error, sending the user to your defined login route.
 
+#### Advanced Redirect Scenarios:
+**Redirecting authenticated users away from public routes (e.g., Login/Signup):**
+```tsx
+// src/routes/login.tsx
+export const Route = createFileRoute('/login')({
+  beforeLoad: async () => {
+    const session = await queryClient.getQueryData(['session']);
+    if (session) throw redirect({ to: '/dashboard' });
+  },
+  component: Login,
+});
+```
+
 ---
 
 ## 🤝 Contributing
