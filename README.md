@@ -71,9 +71,20 @@ export const Route = createFileRoute('/dashboard')({
   beforeLoad: createAuthRouteGuard(queryClient),
   component: Dashboard,
 });
-```
+### 3. Additional Auth Workflows
+```tsx
+// Signup
+const signupMutation = useSignupMutation();
+signupMutation.mutate({ username, email, password });
 
-## Development
+// Password Reset
+const resetMutation = usePasswordResetMutation();
+resetMutation.mutate({ email });
+
+// Email Verification
+const verifyMutation = useEmailVerificationMutation();
+verifyMutation.mutate({ key: 'verification-key' });
+```
 - **Build**: `npm run build`
 - **Lint**: `npm run lint`
 - **Test**: `npm test`
