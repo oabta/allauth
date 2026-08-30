@@ -44,6 +44,35 @@ function App() {
 }
 ```
 
+## Practical Examples
+
+### 1. Login Mutation (TanStack Query)
+```tsx
+import { useLoginMutation } from '@oabta/allauth/react/hooks/auth/useLoginMutation';
+
+function LoginForm() {
+  const loginMutation = useLoginMutation();
+
+  const handleLogin = (data) => {
+    loginMutation.mutate(data);
+  };
+  // ...
+}
+```
+
+### 2. Protected Route (TanStack Router)
+```tsx
+import { createAuthRouteGuard } from '@oabta/allauth/react/router/authGuard';
+import { queryClient } from './queryClient'; // Your QueryClient instance
+
+const route = new Route({
+  getParentRoute: () => rootRoute,
+  path: '/dashboard',
+  beforeLoad: createAuthRouteGuard(queryClient),
+  component: Dashboard,
+});
+```
+
 ## Development
 - **Build**: `npm run build`
 - **Lint**: `npm run lint`
