@@ -5,12 +5,20 @@
   "description": "SDK for django-allauth Headless API",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "build"
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./build/index.js",
+      "types": "./build/index.d.ts"
+    },
+    "./react": {
+      "import": "./build/react/index.js",
+      "types": "./build/react/index.d.ts"
+    },
+    "./browser": {
+      "import": "./build/browser/index.js",
+      "types": "./build/browser/index.d.ts"
     }
   },
   "scripts": {

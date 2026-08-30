@@ -1,4 +1,4 @@
-import { useLogoutMutation } from '@oabta/allauth/react/hooks/auth/useAuthMutations';
+import { useLogoutMutation } from '@oabta/allauth/react';
 import { useNavigate } from '@tanstack/react-router';
 
 export const Dashboard = () => {

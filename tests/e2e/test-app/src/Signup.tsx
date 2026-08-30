@@ -1,5 +1,5 @@
 import { useForm } from '@tanstack/react-form';
-import { useSignupMutation } from '@oabta/allauth/react/hooks/auth/useAuthMutations';
+import { useSignupMutation } from '@oabta/allauth/react';
 import { useNavigate } from '@tanstack/react-router';
 
 export const Signup = () => {
