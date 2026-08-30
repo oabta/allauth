@@ -87,6 +87,10 @@ export const Route = createFileRoute('/dashboard')({
   component: Dashboard,
 });
 ```
+#### How it works:
+- **`beforeLoad` Hook**: The `createAuthRouteGuard` is a high-order function that returns a `beforeLoad` handler, which TanStack Router executes *before* navigating to the route.
+- **Session Validation**: It utilizes `queryClient.ensureQueryData` to check if a valid session exists. If the session data isn't in the cache, it triggers the auth fetcher to validate the user.
+- **Automatic Redirects**: If no session is found, or the request fails (indicating unauthorized status), it throws a `redirect` error, which TanStack Router catches and processes, sending the user immediately to your defined login route.
 
 ## Development
 - **Build**: `npm run build`
