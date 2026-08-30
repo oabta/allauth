@@ -18,13 +18,13 @@ export const Signup = () => {
   return (
     <form onSubmit={(e) => { e.preventDefault(); e.stopPropagation(); form.handleSubmit(); }}>
       <form.Field name="username" children={(field) => (
-        <input name={field.name} value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} placeholder="Username" />
+        <input id="username" name={field.name} value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} placeholder="Username" />
       )} />
       <form.Field name="email" children={(field) => (
-        <input name={field.name} value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} placeholder="Email" />
+        <input id="email" name={field.name} value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} placeholder="Email" />
       )} />
       <form.Field name="password" children={(field) => (
-        <input name={field.name} value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} type="password" placeholder="Password" />
+        <input id="password" name={field.name} value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} type="password" placeholder="Password" />
       )} />
       <button type="submit">Submit</button>
     </form>

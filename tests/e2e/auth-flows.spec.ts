@@ -17,10 +17,10 @@ test.describe('Full Authentication Flow', () => {
   });
 
   test('Signup - Success', async ({ page }) => {
-    await page.goto('http://localhost:5173/signup');
-    await page.fill('input[name="username"]', VALID_USER.username);
-    await page.fill('input[name="email"]', VALID_USER.email);
-    await page.fill('input[name="password"]', VALID_USER.password);
+    await page.goto('http://localhost:5173/#/signup');
+    await page.fill('#username', VALID_USER.username);
+    await page.fill('#email', VALID_USER.email);
+    await page.fill('#password', VALID_USER.password);
     await page.click('button[type="submit"]');
     
     await expect(page).toHaveURL(/.*\/dashboard/);

@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import {RouterProvider, createRouter, createRootRoute, createRoute, Outlet} from '@tanstack/react-router';
+import {RouterProvider, createRouter, createRootRoute, createRoute, Outlet, createHashHistory} from '@tanstack/react-router';
 import {AllauthProvider} from '@oabta/allauth/react';
 import {AllauthTransport} from '@oabta/allauth/browser';
 import {QueryClient} from '@tanstack/react-query';
@@ -30,7 +30,8 @@ const resetPasswordRoute = createRoute({getParentRoute: () => rootRoute, path: '
 const auth2faRoute = createRoute({ getParentRoute: () => rootRoute, path: '/2fa', component: Auth2FA });
 
 const routeTree = rootRoute.addChildren([indexRoute, loginRoute, signupRoute, dashboardRoute, verifyEmailRoute, requestPasswordRoute, resetPasswordRoute, auth2faRoute]);
-const router = createRouter({routeTree});
+const history = createHashHistory();
+const router = createRouter({routeTree, history});
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <AllauthProvider transport={transport} queryClient={queryClient}>
