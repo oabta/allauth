@@ -5,7 +5,7 @@ A unified, type-safe, and modular client library for `django-allauth` headless A
 ---
 
 ## 🌟 Introduction
-`@oabta/allauth` bridges the gap between Django's powerful authentication system and modern React frontend architectures. Our goal is to provide a production-grade, extensible foundation for handling authentication workflows with state-of-the-art tools.
+`@oabta/allauth` bridges the gap between Django's authentication system and modern React frontend architectures. Our goal is to provide a production-grade, extensible foundation for handling authentication workflows with state-of-the-art tools.
 
 ## 🚀 Features
 - **Seamless Integration**: Built for TanStack Query, Form, and Router.
@@ -22,13 +22,13 @@ npm install @oabta/allauth
 ### Quick Usage
 ```tsx
 import { AllauthProvider } from '@oabta/allauth/react';
-import { AllauthClient } from '@oabta/allauth/browser';
+import { AllauthTransport } from '@oabta/allauth/browser';
 
-const client = new AllauthClient({ baseUrl: 'https://api.yourdomain.com' });
+const transport = new AllauthTransport({ baseUrl: 'https://api.yourdomain.com' });
 
 function App() {
   return (
-    <AllauthProvider client={client} queryClient={queryClient}>
+    <AllauthProvider transport={transport} queryClient={queryClient}>
       <YourApp />
     </AllauthProvider>
   );
@@ -39,7 +39,7 @@ function App() {
 
 ### 1. Login Mutation (TanStack Query)
 ```tsx
-import { useLoginMutation } from '@oabta/allauth/react/hooks/auth/useLoginMutation';
+import { useLoginMutation } from '@/react/hooks/auth/useLoginMutation';
 
 function LoginForm() {
   const loginMutation = useLoginMutation();
@@ -50,8 +50,6 @@ function LoginForm() {
   // ...
 }
 ```
-
-*Note: Internally, the library uses `AllAuthApi` initialized with `AllauthClient` to execute requests, ensuring a clean separation between transport and API implementation.*
 
 ### 2. Sign-up, Reset Password, & Verification
 ```tsx
@@ -68,15 +66,15 @@ const verifyMutation = useEmailVerificationMutation();
 verifyMutation.mutate({ key: 'verification-key' });
 ```
 
-### 4. Dynamic Config-Driven Workflows
+### 3. Dynamic Config-Driven Workflows
 The `django-allauth` headless API controls the auth flow dynamically. Fetch the configuration first to adapt your UI:
 
 ```tsx
-import { useConfig } from '@oabta/allauth/react/hooks/auth/useConfig';
+import { useConfig } from '@/react/hooks/auth/useConfig';
 
 function AuthForms() {
   const { data: config, isLoading } = useConfig();
-
+  
   if (isLoading) return <div>Loading...</div>;
 
   // Use config.auth_methods to decide which forms to show
@@ -89,6 +87,36 @@ function AuthForms() {
 }
 ```
 
+### 4. Protected Route (TanStack Router)
+```tsx
+// src/routes/dashboard.tsx
+import { createFileRoute } from '@tanstack/react-router';
+import { createAuthRouteGuard } from '@/react/router/authGuard';
+import { queryClient } from '@/queryClient'; 
+
+export const Route = createFileRoute('/dashboard')({
+  beforeLoad: createAuthRouteGuard(queryClient),
+  component: Dashboard,
+});
+```
+
+#### How it works:
+- **`beforeLoad` Hook**: The `createAuthRouteGuard` is a high-order function that returns a `beforeLoad` handler, which TanStack Router executes *before* navigating to the route.
+- **Session Validation**: It utilizes `queryClient.ensureQueryData` to check if a valid session exists.
+- **Automatic Redirects**: If no session is found, it throws a `redirect` error, sending the user to your defined login route.
+
+#### Advanced Redirect Scenarios:
+**Redirecting authenticated users away from public routes (e.g., Login/Signup):**
+```tsx
+// src/routes/login.tsx
+export const Route = createFileRoute('/login')({
+  beforeLoad: async () => {
+    const session = await queryClient.getQueryData(['session']);
+    if (session) throw redirect({ to: '/dashboard' });
+  },
+  component: Login,
+});
+```
 
 ---
 
