@@ -1,9 +1,9 @@
 import {beforeEach, describe, expect, it, vi} from 'vitest';
-import {AllauthClient} from "@browser/client";
+import {AllauthTransport} from "@browser/transport";
 
 describe('Client', () => {
   const baseUrl = "http://localhost:8080/_allauth/browser/v1"
-  const client = new AllauthClient({
+  const client = new AllauthTransport({
     baseUrl, headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'

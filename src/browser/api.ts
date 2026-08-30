@@ -1,4 +1,4 @@
-import {AllauthClient} from "./client.js";
+import {AllauthTransport} from "./transport";
 import {
   AuthenticatedResponse,
   AuthenticationResponse,
@@ -15,24 +15,24 @@ import {
 } from "./types.js";
 
 export class AllAuthApi {
-  constructor(private client: AllauthClient) {}
+  constructor(private transport: AllauthTransport) {}
 
   async getConfig() {
-    return this.client.dispatch<null, ConfigurationResponse>({
+    return this.transport.dispatch<null, ConfigurationResponse>({
       method: "GET",
       path: "/config"
     });
   }
 
   async getSession() {
-    return this.client.dispatch<null, AuthenticatedResponse | AuthenticationResponse>({
+    return this.transport.dispatch<null, AuthenticatedResponse | AuthenticationResponse>({
       method: "GET",
       path: "/session"
     });
   }
 
   async login(credentials: LoginRequest) {
-    return this.client.dispatch<LoginRequest, AuthenticatedResponse | AuthenticationResponse>({
+    return this.transport.dispatch<LoginRequest, AuthenticatedResponse | AuthenticationResponse>({
       method: "POST",
       path: "/login",
       body: credentials
@@ -40,7 +40,7 @@ export class AllAuthApi {
   }
 
   async signup(data: SignupRequest) {
-    return this.client.dispatch<SignupRequest, AuthenticatedResponse | AuthenticationResponse>({
+    return this.transport.dispatch<SignupRequest, AuthenticatedResponse | AuthenticationResponse>({
       method: "POST",
       path: "/signup",
       body: data
@@ -48,7 +48,7 @@ export class AllAuthApi {
   }
 
   async verifyEmail(key: string) {
-    return this.client.dispatch<VerifyEmailRequest, AuthenticatedResponse | AuthenticationResponse>({
+    return this.transport.dispatch<VerifyEmailRequest, AuthenticatedResponse | AuthenticationResponse>({
       method: "POST",
       path: `/verify-email`,
       body: { key }
@@ -56,7 +56,7 @@ export class AllAuthApi {
   }
 
   async requestPassword(email: string) {
-      return this.client.dispatch<RequestPasswordRequest, any>({
+      return this.transport.dispatch<RequestPasswordRequest, any>({
           method: "POST",
           path: "/auth/password/request",
           body: { email }
@@ -64,7 +64,7 @@ export class AllAuthApi {
   }
 
   async resetPassword(key: string, password: string) {
-      return this.client.dispatch<ResetPasswordRequest, AuthenticatedResponse | AuthenticationResponse>({
+      return this.transport.dispatch<ResetPasswordRequest, AuthenticatedResponse | AuthenticationResponse>({
           method: "POST",
           path: "/auth/password/reset",
           body: { key, password }
@@ -72,7 +72,7 @@ export class AllAuthApi {
   }
 
   async authenticate2FA(code: string) {
-    return this.client.dispatch<MFAAuthenticateRequest, AuthenticatedResponse>({
+    return this.transport.dispatch<MFAAuthenticateRequest, AuthenticatedResponse>({
       method: "POST",
       path: "/auth/2fa/authenticate",
       body: { code }
@@ -80,7 +80,7 @@ export class AllAuthApi {
   }
 
   async trustBrowser(trust: boolean) {
-    return this.client.dispatch<MFATrustRequest, AuthenticatedResponse>({
+    return this.transport.dispatch<MFATrustRequest, AuthenticatedResponse>({
       method: "POST",
       path: "/auth/2fa/trust",
       body: { trust }
@@ -88,7 +88,7 @@ export class AllAuthApi {
   }
 
   async requestLoginCode(data: RequestLoginCodeRequest) {
-    return this.client.dispatch<RequestLoginCodeRequest, any>({
+    return this.transport.dispatch<RequestLoginCodeRequest, any>({
       method: "POST",
       path: "/auth/code/request",
       body: data
@@ -96,7 +96,7 @@ export class AllAuthApi {
   }
 
   async confirmLoginCode(code: string) {
-    return this.client.dispatch<ConfirmLoginCodeRequest, AuthenticatedResponse>({
+    return this.transport.dispatch<ConfirmLoginCodeRequest, AuthenticatedResponse>({
       method: "POST",
       path: "/auth/code/confirm",
       body: { code }
@@ -104,7 +104,7 @@ export class AllAuthApi {
   }
 
   async logout() {
-    return this.client.dispatch<null, any>({
+    return this.transport.dispatch<null, any>({
       method: "POST",
       path: "/logout"
     });

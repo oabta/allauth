@@ -2,7 +2,7 @@ import {AllAuthConfig, AllAuthRequest, Headers} from "./types.js";
 import {getCsrfToken} from "./cookies.js";
 
 
-export class AllauthClient {
+export class AllauthTransport {
   constructor(private config: AllAuthConfig) {
   }
 

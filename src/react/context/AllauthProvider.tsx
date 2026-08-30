@@ -1,15 +1,20 @@
 import { createContext, useContext, ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AllauthClient } from '@browser/client';
+import { AllauthTransport } from '@browser/transport';
 
-const AllauthContext = createContext<{ client: AllauthClient } | null>(null);
+interface AllauthContextValue {
+  transport: AllauthTransport;
+  queryClient: QueryClient;
+}
+
+const AllauthContext = createContext<AllauthContextValue | null>(null);
 
 export const AllauthProvider = ({ 
-  client, 
+  transport, 
   queryClient, 
   children 
-}: { client: AllauthClient, queryClient: QueryClient, children: ReactNode }) => (
-  <AllauthContext.Provider value={{ client }}>
+}: { transport: AllauthTransport, queryClient: QueryClient, children: ReactNode }) => (
+  <AllauthContext.Provider value={{ transport, queryClient }}>
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   </AllauthContext.Provider>
 );
