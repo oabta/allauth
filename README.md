@@ -51,6 +51,8 @@ function LoginForm() {
 }
 ```
 
+*Note: Internally, the library uses `AllAuthApi` initialized with `AllauthClient` to execute requests, ensuring a clean separation between transport and API implementation.*
+
 ### 2. Sign-up, Reset Password, & Verification
 ```tsx
 // Signup
