@@ -1,41 +1,50 @@
 # @oabta/allauth
 
-A monorepo containing the official TypeScript SDKs for interacting with the `django-allauth` Headless API.
+A unified, type-safe, and modular client library for `django-allauth` headless API, designed for seamless integration with the TanStack ecosystem.
 
-## Packages
+## Vision
+The goal of `@oabta/allauth` is to provide a production-grade, extensible bridge between Django's authentication system and modern React frontend architectures. By leveraging TanStack Query, Form, and Router, we deliver a cohesive experience for handling:
 
-| Package | Description |
-| :--- | :--- |
-| [`@allauth/browser`](./packages/browser) | Low-level, browser-only TypeScript API client. |
-| [`@allauth/react`](./packages/react) | Unified React integration with TanStack ecosystem support. |
+- **State Management**: Caching, session synchronization, and API fetching.
+- **Form Handling**: Validation, submission, and API error normalization for Auth workflows.
+- **Route Protection**: Seamless auth guards and navigation handling.
+
+## Project Structure
+```text
+src/
+├── browser/             # Low-level API client & utility layer
+├── react/
+│   ├── context/         # Auth Provider & Context
+│   ├── hooks/           # TanStack Query auth hooks
+│   ├── forms/           # TanStack Form abstractions
+│   └── router/          # Router protection utilities
+tests/                   # Unified top-level test suite
+```
+
+## Getting Started
+
+### Installation
+```bash
+npm install @oabta/allauth
+```
+
+### Quick Usage
+```tsx
+import { AllauthProvider } from '@oabta/allauth/react';
+import { AllauthClient } from '@oabta/allauth/browser';
+
+const client = new AllauthClient({ baseUrl: 'https://api.yourdomain.com' });
+
+function App() {
+  return (
+    <AllauthProvider client={client} queryClient={queryClient}>
+      <YourApp />
+    </AllauthProvider>
+  );
+}
+```
 
 ## Development
-
-This monorepo uses workspaces for package management.
-
-### Prerequisites
-
-- Node.js (v20+)
-- npm (v10+)
-
-### Setup
-
-```bash
-npm install
-```
-
-### Running Checks
-
-To run tests or linting across all packages:
-
-```bash
-# Run tests for all packages
-npm run test --workspaces
-
-# Run lint for all packages
-npm run lint --workspaces
-```
-
-## Contributing
-
-Please see the individual package directories for specific contribution guidelines.
+- **Build**: `npm run build`
+- **Lint**: `npm run lint`
+- **Test**: `npm test`

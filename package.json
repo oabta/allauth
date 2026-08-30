@@ -1,7 +1,49 @@
 {
   "name": "@oabta/allauth",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ]
+  "version": "0.1.0",
+  "type": "module",
+  "description": "SDK for django-allauth Headless API",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup && tsc-alias",
+    "test": "vitest",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tanstack/react-form": "latest",
+    "@tanstack/react-query": "latest",
+    "@tanstack/react-router": "latest"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@testing-library/react": "^16.0.0",
+    "@types/jsdom": "latest",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.68.0",
+    "@typescript-eslint/parser": "^8.68.0",
+    "esbuild-plugin-alias": "^0.2.1",
+    "eslint": "^10.9.1",
+    "globals": "^17.11.0",
+    "jsdom": "latest",
+    "tsc-alias": "^1.9.2",
+    "tsup": "^8.5.1",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.68.0",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "latest"
+  }
 }

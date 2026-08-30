@@ -1,4 +1,4 @@
-import {AllauthClient} from "@/client";
+import {AllauthClient} from "./client.js";
 import {
   AuthenticatedResponse,
   AuthenticationResponse,
@@ -12,7 +12,7 @@ import {
   MFATrustRequest,
   RequestLoginCodeRequest,
   ConfirmLoginCodeRequest
-} from "@/types";
+} from "./types.js";
 
 export class AllAuthApi {
   constructor(private client: AllauthClient) {}

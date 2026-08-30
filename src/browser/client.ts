@@ -1,9 +1,8 @@
-import {AllAuthConfig, AllAuthRequest, Headers} from "@/types";
-import {getCsrfToken} from "@/cookies";
+import {AllAuthConfig, AllAuthRequest, Headers} from "./types.js";
+import {getCsrfToken} from "./cookies.js";
 
 
 export class AllauthClient {
-
   constructor(private config: AllAuthConfig) {
   }
 

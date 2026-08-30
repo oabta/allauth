@@ -1,5 +1,5 @@
 import {beforeEach, describe, expect, it, vi} from 'vitest';
-import {AllauthClient} from "@/client";
+import {AllauthClient} from "@browser/client";
 
 describe('Client', () => {
   const baseUrl = "http://localhost:8080/_allauth/browser/v1"

@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
     "strict": true,
     "declaration": true,
     "declarationMap": true,
@@ -10,13 +11,11 @@
     "outDir": "dist",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "lib": ["DOM", "ES2022"],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@/types": ["./src/types.ts"],
-      "@/cookies": ["./src/cookies.ts"],
-      "@/client": ["./src/client.ts"],
-      "@/api": ["./src/api.ts"]
+      "@browser/*": ["src/browser/*"],
+      "@react/*": ["src/react/*"]
     }
   },
   "include": ["src", "tests"]
