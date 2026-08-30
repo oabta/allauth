@@ -68,36 +68,27 @@ const verifyMutation = useEmailVerificationMutation();
 verifyMutation.mutate({ key: 'verification-key' });
 ```
 
-### 3. Protected Route (TanStack Router)
-```tsx
-// src/routes/dashboard.tsx
-import { createFileRoute } from '@tanstack/react-router';
-import { createAuthRouteGuard } from '@oabta/allauth/react/router/authGuard';
-import { queryClient } from '../queryClient'; 
+### 4. Dynamic Config-Driven Workflows
+The `django-allauth` headless API controls the auth flow dynamically. Fetch the configuration first to adapt your UI:
 
-export const Route = createFileRoute('/dashboard')({
-  beforeLoad: createAuthRouteGuard(queryClient),
-  component: Dashboard,
-});
+```tsx
+import { useConfig } from '@oabta/allauth/react/hooks/auth/useConfig';
+
+function AuthForms() {
+  const { data: config, isLoading } = useConfig();
+
+  if (isLoading) return <div>Loading...</div>;
+
+  // Use config.auth_methods to decide which forms to show
+  return (
+    <>
+      {config.auth_methods.includes('password') && <LoginForm />}
+      {config.allow_signup && <SignupForm />}
+    </>
+  );
+}
 ```
 
-#### How it works:
-- **`beforeLoad` Hook**: The `createAuthRouteGuard` is a high-order function that returns a `beforeLoad` handler, which TanStack Router executes *before* navigating to the route.
-- **Session Validation**: It utilizes `queryClient.ensureQueryData` to check if a valid session exists.
-- **Automatic Redirects**: If no session is found, it throws a `redirect` error, sending the user to your defined login route.
-
-#### Advanced Redirect Scenarios:
-**Redirecting authenticated users away from public routes (e.g., Login/Signup):**
-```tsx
-// src/routes/login.tsx
-export const Route = createFileRoute('/login')({
-  beforeLoad: async () => {
-    const session = await queryClient.getQueryData(['session']);
-    if (session) throw redirect({ to: '/dashboard' });
-  },
-  component: Login,
-});
-```
 
 ---
 
