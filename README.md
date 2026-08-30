@@ -62,12 +62,12 @@ function LoginForm() {
 
 ### 2. Protected Route (TanStack Router)
 ```tsx
+// src/routes/dashboard.tsx
+import { createFileRoute } from '@tanstack/react-router';
 import { createAuthRouteGuard } from '@oabta/allauth/react/router/authGuard';
-import { queryClient } from './queryClient'; // Your QueryClient instance
+import { queryClient } from '../queryClient'; 
 
-const route = new Route({
-  getParentRoute: () => rootRoute,
-  path: '/dashboard',
+export const Route = createFileRoute('/dashboard')({
   beforeLoad: createAuthRouteGuard(queryClient),
   component: Dashboard,
 });
