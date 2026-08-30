@@ -3,21 +3,56 @@ import { test, expect } from '@playwright/test';
 // Run tests in order to handle empty backend state
 test.describe.configure({ mode: 'serial' });
 
-const TEST_USER = {
-  username: 'e2e_test_user',
-  email: 'e2e_test@example.com',
+const VALID_USER = {
+  username: 'test_user_1',
+  email: 'test1@example.com',
   password: 'Password123!',
 };
 
+const INVALID_PASSWORD = 'WrongPassword!';
+
 test.describe('Full Authentication Flow', () => {
   test.beforeEach(async ({ page }) => {
-    // Assumption: A test app using @oabta/allauth is running on localhost:5173
-    await page.goto('http://localhost:5173');
+    await page.goto('http://localhost:5173/');
   });
 
-  test('Home page', async ({ page }) => {
-    await page.goto('http://localhost:5173/');
-    await expect(page.locator('#root')).toContainText('Home');
+  test('Signup - Success', async ({ page }) => {
+    await page.goto('http://localhost:5173/signup');
+    await page.fill('input[name="username"]', VALID_USER.username);
+    await page.fill('input[name="email"]', VALID_USER.email);
+    await page.fill('input[name="password"]', VALID_USER.password);
+    await page.click('button[type="submit"]');
+    
+    await expect(page).toHaveURL(/.*\/dashboard/);
+  });
+
+  test('Signup - Error (Duplicate)', async ({ page }) => {
+    await page.goto('http://localhost:5173/signup');
+    await page.fill('input[name="username"]', VALID_USER.username);
+    await page.fill('input[name="email"]', VALID_USER.email);
+    await page.fill('input[name="password"]', VALID_USER.password);
+    await page.click('button[type="submit"]');
+    
+    // Expect error handling (e.g., alert or error message)
+    await expect(page.locator('body')).toContainText(/error/i);
+  });
+
+  test('Login - Error (Invalid Password)', async ({ page }) => {
+    await page.goto('http://localhost:5173/login');
+    await page.fill('input[name="username"]', VALID_USER.username);
+    await page.fill('input[name="password"]', INVALID_PASSWORD);
+    await page.click('button[type="submit"]');
+
+    await expect(page.locator('body')).toContainText(/error/i);
+  });
+
+  test('Login - Success', async ({ page }) => {
+    await page.goto('http://localhost:5173/login');
+    await page.fill('input[name="username"]', VALID_USER.username);
+    await page.fill('input[name="password"]', VALID_USER.password);
+    await page.click('button[type="submit"]');
+
+    await expect(page).toHaveURL(/.*\/dashboard/);
   });
 
   test('Logout', async ({ page }) => {
@@ -25,21 +60,19 @@ test.describe('Full Authentication Flow', () => {
     await expect(page).toHaveURL('/login');
   });
 
-  test('Login', async ({ page }) => {
-    await page.goto('/login');
-    await page.fill('input[name="username"]', TEST_USER.username);
-    await page.fill('input[name="password"]', TEST_USER.password);
-    await page.click('button[type="submit"]');
-
-    await expect(page).toHaveURL(/.*\/dashboard/);
-  });
-
-  test('Password Reset', async ({ page }) => {
-    await page.goto('/password/reset');
-    await page.fill('input[name="email"]', TEST_USER.email);
+  test('Password Reset - Request', async ({ page }) => {
+    await page.goto('http://localhost:5173/password/request');
+    await page.fill('input[name="email"]', VALID_USER.email);
     await page.click('button[type="submit"]');
     
-    // Check for success message
-    await expect(page.locator('.success-message')).toBeVisible();
+    await expect(page.locator('body')).toContainText(/success/i);
+  });
+
+  test('Email Verification - Error (Invalid Key)', async ({ page }) => {
+    await page.goto('http://localhost:5173/verify-email');
+    await page.fill('input[name="key"]', 'invalid-key');
+    await page.click('button[type="submit"]');
+    
+    await expect(page.locator('body')).toContainText(/error/i);
   });
 });
