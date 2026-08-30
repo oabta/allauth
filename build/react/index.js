@@ -67,13 +67,54 @@ var useResetPasswordMutation = () => {
     mutationFn: ({ key, password }) => api.resetPassword(key, password)
   });
 };
+var useAuthenticate2FAMutation = () => {
+  const { api } = useAllauth();
+  return useMutation2({
+    mutationFn: (code) => api.authenticate2FA(code)
+  });
+};
+var useTrustBrowserMutation = () => {
+  const { api } = useAllauth();
+  return useMutation2({
+    mutationFn: (trust) => api.trustBrowser(trust)
+  });
+};
+var useRequestLoginCodeMutation = () => {
+  const { api } = useAllauth();
+  return useMutation2({
+    mutationFn: (data) => api.requestLoginCode(data)
+  });
+};
+var useConfirmLoginCodeMutation = () => {
+  const { api } = useAllauth();
+  return useMutation2({
+    mutationFn: (code) => api.confirmLoginCode(code)
+  });
+};
+
+// src/react/hooks/auth/useConfig.ts
+import { useQuery } from "@tanstack/react-query";
+var useConfig = () => {
+  const { api } = useAllauth();
+  return useQuery({
+    queryKey: ["auth", "config"],
+    queryFn: () => api.getConfig(),
+    staleTime: 1e3 * 60 * 60
+    // Cache for 1 hour
+  });
+};
 export {
   AllauthProvider,
   useAllauth,
+  useAuthenticate2FAMutation,
+  useConfig,
+  useConfirmLoginCodeMutation,
   useLoginMutation,
   useLogoutMutation,
+  useRequestLoginCodeMutation,
   useRequestPasswordResetMutation,
   useResetPasswordMutation,
   useSignupMutation,
+  useTrustBrowserMutation,
   useVerifyEmailMutation
 };

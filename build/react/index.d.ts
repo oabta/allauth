@@ -2,7 +2,7 @@ import * as react from '../react';
 import { ReactNode } from '../react';
 import * as _tanstack_react_query from '@tanstack/react-query';
 import { QueryClient } from '@tanstack/react-query';
-import { e as AllauthTransport, a as AllAuthApi, g as AuthenticatedResponse, j as AuthenticationResponse, L as LoginRequest, S as SignupRequest } from '../api-3edLcVcU.js';
+import { e as AllauthTransport, a as AllAuthApi, g as AuthenticatedResponse, j as AuthenticationResponse, L as LoginRequest, S as SignupRequest, m as ConfigurationResponse } from '../api-3edLcVcU.js';
 
 interface AllauthContextValue {
     api: AllAuthApi;
@@ -25,5 +25,11 @@ declare const useResetPasswordMutation: () => _tanstack_react_query.UseMutationR
     key: string;
     password: string;
 }, unknown>;
+declare const useAuthenticate2FAMutation: () => _tanstack_react_query.UseMutationResult<AuthenticatedResponse, Error, string, unknown>;
+declare const useTrustBrowserMutation: () => _tanstack_react_query.UseMutationResult<AuthenticatedResponse, Error, boolean, unknown>;
+declare const useRequestLoginCodeMutation: () => _tanstack_react_query.UseMutationResult<any, Error, any, unknown>;
+declare const useConfirmLoginCodeMutation: () => _tanstack_react_query.UseMutationResult<AuthenticatedResponse, Error, string, unknown>;
 
-export { AllauthProvider, useAllauth, useLoginMutation, useLogoutMutation, useRequestPasswordResetMutation, useResetPasswordMutation, useSignupMutation, useVerifyEmailMutation };
+declare const useConfig: () => _tanstack_react_query.UseQueryResult<ConfigurationResponse, Error>;
+
+export { AllauthProvider, useAllauth, useAuthenticate2FAMutation, useConfig, useConfirmLoginCodeMutation, useLoginMutation, useLogoutMutation, useRequestLoginCodeMutation, useRequestPasswordResetMutation, useResetPasswordMutation, useSignupMutation, useTrustBrowserMutation, useVerifyEmailMutation };

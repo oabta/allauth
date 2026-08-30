@@ -18,7 +18,8 @@ const transport = new AllauthTransport({
   }
 });
 
-const rootRoute = createRootRoute({component: Outlet});
+const rootRoute = createRootRoute({ component: () => <Outlet /> });
+
 const indexRoute = createRoute({getParentRoute: () => rootRoute, path: '/', component: () => <div>Home</div>});
 const loginRoute = createRoute({getParentRoute: () => rootRoute, path: '/login', component: Login});
 const signupRoute = createRoute({getParentRoute: () => rootRoute, path: '/signup', component: Signup});

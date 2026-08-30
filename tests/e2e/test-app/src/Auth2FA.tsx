@@ -1,5 +1,5 @@
 import { useForm } from '@tanstack/react-form';
-import { useAuthenticate2FAMutation } from '@oabta/allauth/react/hooks/auth/useAuthMutations';
+import { useAuthenticate2FAMutation } from '@oabta/allauth/react';
 
 export const Auth2FA = () => {
   const auth2fa = useAuthenticate2FAMutation();

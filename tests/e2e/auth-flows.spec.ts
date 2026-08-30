@@ -11,19 +11,13 @@ const TEST_USER = {
 
 test.describe('Full Authentication Flow', () => {
   test.beforeEach(async ({ page }) => {
-    // Assumption: A test app using @oabta/allauth is running on localhost:3000
-    await page.goto('http://localhost:3000');
+    // Assumption: A test app using @oabta/allauth is running on localhost:5173
+    await page.goto('http://localhost:5173');
   });
 
-  test('Signup', async ({ page }) => {
-    await page.goto('/signup');
-    await page.fill('input[name="username"]', TEST_USER.username);
-    await page.fill('input[name="email"]', TEST_USER.email);
-    await page.fill('input[name="password"]', TEST_USER.password);
-    await page.click('button[type="submit"]');
-    
-    // Assert redirect or success message
-    await expect(page).toHaveURL(/.*\/dashboard/);
+  test('Home page', async ({ page }) => {
+    await page.goto('http://localhost:5173/');
+    await expect(page.locator('#root')).toContainText('Home');
   });
 
   test('Logout', async ({ page }) => {

@@ -1,5 +1,5 @@
 import { useForm } from '@tanstack/react-form';
-import { useRequestPasswordResetMutation, useResetPasswordMutation } from '@oabta/allauth/react/hooks/auth/useAuthMutations';
+import { useRequestPasswordResetMutation, useResetPasswordMutation } from '@oabta/allauth/react';
 
 export const RequestPassword = () => {
   const request = useRequestPasswordResetMutation();

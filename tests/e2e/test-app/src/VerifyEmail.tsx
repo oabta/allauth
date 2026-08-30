@@ -1,5 +1,5 @@
 import { useForm } from '@tanstack/react-form';
-import { useVerifyEmailMutation } from '@oabta/allauth/react/hooks/auth/useAuthMutations';
+import { useVerifyEmailMutation } from '@oabta/allauth/react';
 
 export const VerifyEmail = () => {
   const verify = useVerifyEmailMutation();
