@@ -35,99 +35,87 @@ function App() {
 }
 ```
 
-## 🔐 Authentication Workflows
+## 🔐 Authentication Hooks & Workflows
 
-### 1. Login Mutation (TanStack Query)
+We provide high-level, encapsulated hooks that bundle form logic and API mutations for seamless UI implementation.
+
+### 1. Signup Flow
 ```tsx
-import { useLoginMutation } from '@/react/hooks/auth/useLoginMutation';
+import { useSignupForm } from '@oabta/allauth/react';
+import { useNavigate } from '@tanstack/react-router';
 
-function LoginForm() {
-  const loginMutation = useLoginMutation();
+function SignupForm() {
+  const navigate = useNavigate();
+  const { form } = useSignupForm(() => navigate({ to: '/dashboard' }));
 
-  const handleLogin = (data) => {
-    loginMutation.mutate(data);
-  };
-  // ...
-}
-```
-
-### 2. Sign-up, Reset Password, & Verification
-```tsx
-// Signup
-const signupMutation = useSignupMutation();
-signupMutation.mutate({ username, email, password });
-
-// Password Reset
-const resetMutation = usePasswordResetMutation();
-resetMutation.mutate({ email });
-
-// Email Verification
-const verifyMutation = useEmailVerificationMutation();
-verifyMutation.mutate({ key: 'verification-key' });
-```
-
-### 3. Dynamic Config-Driven Workflows
-The `django-allauth` headless API controls the auth flow dynamically. Fetch the configuration first to adapt your UI:
-
-```tsx
-import { useConfig } from '@/react/hooks/auth/useConfig';
-
-function AuthForms() {
-  const { data: config, isLoading } = useConfig();
-  
-  if (isLoading) return <div>Loading...</div>;
-
-  // Use config.auth_methods to decide which forms to show
   return (
-    <>
-      {config.auth_methods.includes('password') && <LoginForm />}
-      {config.allow_signup && <SignupForm />}
-    </>
+    <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }}>
+      <form.Field name="username" children={(field) => (
+        <input value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} />
+      )} />
+      {/* ... email and password fields ... */}
+      <button type="submit">Signup</button>
+    </form>
   );
 }
 ```
 
-### 4. Protected Route (TanStack Router)
+### 2. Login Flow
 ```tsx
-// src/routes/dashboard.tsx
-import { createFileRoute } from '@tanstack/react-router';
-import { createAuthRouteGuard } from '@/react/router/authGuard';
-import { queryClient } from '@/queryClient'; 
+import { useLoginForm } from '@oabta/allauth/react';
+import { useNavigate } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/dashboard')({
-  beforeLoad: createAuthRouteGuard(queryClient),
-  component: Dashboard,
-});
+function LoginForm() {
+  const navigate = useNavigate();
+  const { form } = useLoginForm(() => navigate({ to: '/dashboard' }));
+
+  return (
+    <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }}>
+      <form.Field name="username" children={(field) => (
+        <input value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} />
+      )} />
+      {/* ... password field ... */}
+      <button type="submit">Login</button>
+    </form>
+  );
+}
 ```
 
-#### How it works:
-- **`beforeLoad` Hook**: The `createAuthRouteGuard` is a high-order function that returns a `beforeLoad` handler, which TanStack Router executes *before* navigating to the route.
-- **Session Validation**: It utilizes `queryClient.ensureQueryData` to check if a valid session exists.
-- **Automatic Redirects**: If no session is found, it throws a `redirect` error, sending the user to your defined login route.
+### 3. Other Authentication Mutations
+For more granular control, you can use the lower-level mutation hooks directly:
+- `useLogoutMutation`
+- `useVerifyEmailMutation`
+- `useRequestPasswordResetMutation`
+- `useResetPasswordMutation`
+- `useAuthenticate2FAMutation`
 
-#### Advanced Redirect Scenarios:
-**Redirecting authenticated users away from public routes (e.g., Login/Signup):**
+### 4. Dynamic Config
+Fetch the backend authentication configuration:
+
 ```tsx
-// src/routes/login.tsx
-export const Route = createFileRoute('/login')({
-  beforeLoad: async () => {
-    const session = await queryClient.getQueryData(['session']);
-    if (session) throw redirect({ to: '/dashboard' });
-  },
-  component: Login,
-});
+import { useConfig } from '@oabta/allauth/react';
+
+function AuthForms() {
+  const { data: config } = useConfig();
+  // Use config.auth_methods to adapt UI
+}
 ```
 
 ---
 
-## 🤝 Contributing
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+## 🧪 Testing
+We maintain a robust suite of unit tests for all authentication hooks to ensure reliability.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'feat: Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### Running Tests
+```bash
+npm test
+```
+All hooks, including form wrappers and mutation handlers, are covered with success and error scenario tests in `tests/react/auth/authHooks.test.tsx`.
+
+---
+
+## 🤝 Contributing
+Contributions are greatly appreciated. Please fork the project, create a feature branch, and submit a pull request.
 
 ## ⚖️ License
-Distributed under the [MIT License](LICENSE). See `LICENSE` for more information.
+Distributed under the [MIT License](LICENSE).
