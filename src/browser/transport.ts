@@ -8,9 +8,14 @@ export class AllauthTransport {
 
   async dispatch<T, R>(request: AllAuthRequest<T>): Promise<R> {
     const url = this.config.baseUrl + request.path
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      ...this.config.headers
+    };
     const opts: RequestInit = {
       method: request.method,
-      headers: this.config.headers,
+      headers: headers,
       credentials: 'include'
     }
     if (request.body) {
