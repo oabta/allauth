@@ -7,7 +7,7 @@ import { vi, describe, it, expect } from 'vitest';
 
 describe('useSignupMutation', () => {
   it('should call api.signup on mutate and handle success', async () => {
-    const transport = new AllauthTransport({ baseUrl: '', headers: {} });
+    const transport = new AllauthTransport({ baseUrl: '' });
     const queryClient = new QueryClient();
 
     // Mock fetch
@@ -30,7 +30,7 @@ describe('useSignupMutation', () => {
   });
 
   it('should handle signup errors', async () => {
-    const transport = new AllauthTransport({ baseUrl: '', headers: {} });
+    const transport = new AllauthTransport({ baseUrl: '' });
     const queryClient = new QueryClient();
 
     // Mock fetch to return error

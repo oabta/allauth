@@ -122,7 +122,7 @@ interface ConfirmLoginCodeRequest {
 }
 interface AllAuthConfig {
     baseUrl: string;
-    headers: Headers;
+    headers?: Headers;
 }
 interface AllAuthRequest<T> {
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';

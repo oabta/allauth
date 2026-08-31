@@ -2,7 +2,7 @@ import * as react from '../react';
 import { ReactNode } from '../react';
 import * as _tanstack_react_query from '@tanstack/react-query';
 import { QueryClient } from '@tanstack/react-query';
-import { e as AllauthTransport, a as AllAuthApi, g as AuthenticatedResponse, j as AuthenticationResponse, S as SignupRequest, m as ConfigurationResponse } from '../api-3edLcVcU.js';
+import { e as AllauthTransport, a as AllAuthApi, g as AuthenticatedResponse, j as AuthenticationResponse, S as SignupRequest, m as ConfigurationResponse } from '../api-Dq5xSO73.js';
 import * as _tanstack_react_form from '@tanstack/react-form';
 import * as _tanstack_form_core from '@tanstack/form-core';
 

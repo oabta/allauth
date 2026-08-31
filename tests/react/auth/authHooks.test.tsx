@@ -18,7 +18,7 @@ import { useSignupForm } from '@/react/hooks/auth/useSignupForm';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 
 const createWrapper = () => {
-    const transport = new AllauthTransport({ baseUrl: '', headers: {} });
+    const transport = new AllauthTransport({ baseUrl: '' });
     const queryClient = new QueryClient();
     return ({ children }: any) => (
       <AllauthProvider transport={transport} queryClient={queryClient}>

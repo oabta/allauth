@@ -16,9 +16,14 @@ var AllauthTransport = class {
   config;
   async dispatch(request) {
     const url = this.config.baseUrl + request.path;
+    const headers = {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      ...this.config.headers
+    };
     const opts = {
       method: request.method,
-      headers: this.config.headers,
+      headers,
       credentials: "include"
     };
     if (request.body) {

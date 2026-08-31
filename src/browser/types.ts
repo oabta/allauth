@@ -146,7 +146,7 @@ export interface ConfirmLoginCodeRequest {
 // Internal structures
 export interface AllAuthConfig {
   baseUrl: string;
-  headers: Headers;
+  headers?: Headers;
 }
 
 export interface AllAuthRequest<T> {
