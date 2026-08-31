@@ -21,73 +21,68 @@ var useAllauth = () => {
   return context;
 };
 
-// src/react/hooks/auth/useLoginMutation.ts
+// src/react/hooks/auth/useAuthMutations.ts
 import { useMutation } from "@tanstack/react-query";
+var useSignupMutation = () => {
+  const { api, queryClient } = useAllauth();
+  return useMutation({
+    mutationFn: (data) => api.signup(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["auth", "session"] })
+  });
+};
 var useLoginMutation = () => {
   const { api, queryClient } = useAllauth();
   return useMutation({
-    mutationFn: (credentials) => api.login(credentials),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["session"] });
-    }
-  });
-};
-
-// src/react/hooks/auth/useAuthMutations.ts
-import { useMutation as useMutation2 } from "@tanstack/react-query";
-var useSignupMutation = () => {
-  const { api, queryClient } = useAllauth();
-  return useMutation2({
-    mutationFn: (data) => api.signup(data),
+    mutationFn: (data) => api.login(data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["auth", "session"] })
   });
 };
 var useLogoutMutation = () => {
   const { api, queryClient } = useAllauth();
-  return useMutation2({
+  return useMutation({
     mutationFn: () => api.logout(),
     onSuccess: () => queryClient.setQueryData(["auth", "session"], null)
   });
 };
 var useVerifyEmailMutation = () => {
   const { api } = useAllauth();
-  return useMutation2({
+  return useMutation({
     mutationFn: (key) => api.verifyEmail(key)
   });
 };
 var useRequestPasswordResetMutation = () => {
   const { api } = useAllauth();
-  return useMutation2({
+  return useMutation({
     mutationFn: (email) => api.requestPassword(email)
   });
 };
 var useResetPasswordMutation = () => {
   const { api } = useAllauth();
-  return useMutation2({
+  return useMutation({
     mutationFn: ({ key, password }) => api.resetPassword(key, password)
   });
 };
 var useAuthenticate2FAMutation = () => {
   const { api } = useAllauth();
-  return useMutation2({
+  return useMutation({
     mutationFn: (code) => api.authenticate2FA(code)
   });
 };
 var useTrustBrowserMutation = () => {
   const { api } = useAllauth();
-  return useMutation2({
+  return useMutation({
     mutationFn: (trust) => api.trustBrowser(trust)
   });
 };
 var useRequestLoginCodeMutation = () => {
   const { api } = useAllauth();
-  return useMutation2({
+  return useMutation({
     mutationFn: (data) => api.requestLoginCode(data)
   });
 };
 var useConfirmLoginCodeMutation = () => {
   const { api } = useAllauth();
-  return useMutation2({
+  return useMutation({
     mutationFn: (code) => api.confirmLoginCode(code)
   });
 };
@@ -116,12 +111,26 @@ var useSignupForm = (onSuccess) => {
   });
   return { form, signup };
 };
+
+// src/react/hooks/auth/useLoginForm.ts
+import { useForm as useForm2 } from "@tanstack/react-form";
+var useLoginForm = (onSuccess) => {
+  const login = useLoginMutation();
+  const form = useForm2({
+    defaultValues: { username: "", password: "" },
+    onSubmit: async ({ value }) => {
+      login.mutate(value, { onSuccess });
+    }
+  });
+  return { form, login };
+};
 export {
   AllauthProvider,
   useAllauth,
   useAuthenticate2FAMutation,
   useConfig,
   useConfirmLoginCodeMutation,
+  useLoginForm,
   useLoginMutation,
   useLogoutMutation,
   useRequestLoginCodeMutation,

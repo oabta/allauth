@@ -10,6 +10,14 @@ export const useSignupMutation = () => {
   });
 };
 
+export const useLoginMutation = () => {
+  const { api, queryClient } = useAllauth();
+  return useMutation({
+    mutationFn: (data: any) => api.login(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['auth', 'session'] }),
+  });
+};
+
 export const useLogoutMutation = () => {
   const { api, queryClient } = useAllauth();
   return useMutation({
