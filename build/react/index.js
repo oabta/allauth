@@ -103,6 +103,19 @@ var useConfig = () => {
     // Cache for 1 hour
   });
 };
+
+// src/react/hooks/auth/useSignupForm.ts
+import { useForm } from "@tanstack/react-form";
+var useSignupForm = (onSuccess) => {
+  const signup = useSignupMutation();
+  const form = useForm({
+    defaultValues: { username: "", email: "", password: "" },
+    onSubmit: async ({ value }) => {
+      signup.mutate(value, { onSuccess });
+    }
+  });
+  return { form, signup };
+};
 export {
   AllauthProvider,
   useAllauth,
@@ -114,6 +127,7 @@ export {
   useRequestLoginCodeMutation,
   useRequestPasswordResetMutation,
   useResetPasswordMutation,
+  useSignupForm,
   useSignupMutation,
   useTrustBrowserMutation,
   useVerifyEmailMutation

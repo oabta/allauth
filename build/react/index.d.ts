@@ -3,6 +3,8 @@ import { ReactNode } from '../react';
 import * as _tanstack_react_query from '@tanstack/react-query';
 import { QueryClient } from '@tanstack/react-query';
 import { e as AllauthTransport, a as AllAuthApi, g as AuthenticatedResponse, j as AuthenticationResponse, L as LoginRequest, S as SignupRequest, m as ConfigurationResponse } from '../api-3edLcVcU.js';
+import * as _tanstack_react_form from '@tanstack/react-form';
+import * as _tanstack_form_core from '@tanstack/form-core';
 
 interface AllauthContextValue {
     api: AllAuthApi;
@@ -32,4 +34,53 @@ declare const useConfirmLoginCodeMutation: () => _tanstack_react_query.UseMutati
 
 declare const useConfig: () => _tanstack_react_query.UseQueryResult<ConfigurationResponse, Error>;
 
-export { AllauthProvider, useAllauth, useAuthenticate2FAMutation, useConfig, useConfirmLoginCodeMutation, useLoginMutation, useLogoutMutation, useRequestLoginCodeMutation, useRequestPasswordResetMutation, useResetPasswordMutation, useSignupMutation, useTrustBrowserMutation, useVerifyEmailMutation };
+declare const useSignupForm: (onSuccess?: () => void) => {
+    form: _tanstack_react_form.ReactFormExtendedApi<{
+        username: string;
+        email: string;
+        password: string;
+    }, _tanstack_form_core.FormValidateOrFn<{
+        username: string;
+        email: string;
+        password: string;
+    }> | undefined, _tanstack_form_core.FormValidateOrFn<{
+        username: string;
+        email: string;
+        password: string;
+    }> | undefined, _tanstack_form_core.FormAsyncValidateOrFn<{
+        username: string;
+        email: string;
+        password: string;
+    }> | undefined, _tanstack_form_core.FormValidateOrFn<{
+        username: string;
+        email: string;
+        password: string;
+    }> | undefined, _tanstack_form_core.FormAsyncValidateOrFn<{
+        username: string;
+        email: string;
+        password: string;
+    }> | undefined, _tanstack_form_core.FormValidateOrFn<{
+        username: string;
+        email: string;
+        password: string;
+    }> | undefined, _tanstack_form_core.FormAsyncValidateOrFn<{
+        username: string;
+        email: string;
+        password: string;
+    }> | undefined, _tanstack_form_core.FormValidateOrFn<{
+        username: string;
+        email: string;
+        password: string;
+    }> | undefined, _tanstack_form_core.FormAsyncValidateOrFn<{
+        username: string;
+        email: string;
+        password: string;
+    }> | undefined, _tanstack_form_core.FormAsyncValidateOrFn<{
+        username: string;
+        email: string;
+        password: string;
+    }> | undefined, unknown>;
+    signup: _tanstack_react_query.UseMutationResult<AuthenticatedResponse | AuthenticationResponse, Error, SignupRequest, unknown>;
+};
+
+export { AllauthProvider, useAllauth, useAuthenticate2FAMutation, useConfig, useConfirmLoginCodeMutation, useLoginMutation, useLogoutMutation, useRequestLoginCodeMutation, useRequestPasswordResetMutation, useResetPasswordMutation, useSignupForm, useSignupMutation, useTrustBrowserMutation, useVerifyEmailMutation };

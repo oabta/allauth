@@ -1,19 +1,9 @@
-import { useForm } from '@tanstack/react-form';
-import { useSignupMutation } from '@oabta/allauth/react';
+import { useSignupForm } from '@oabta/allauth/react';
 import { useNavigate } from '@tanstack/react-router';
 
 export const Signup = () => {
-  const signup = useSignupMutation();
   const navigate = useNavigate();
-
-  const form = useForm({
-    defaultValues: { username: '', email: '', password: '' },
-    onSubmit: async ({ value }) => {
-      signup.mutate(value, {
-        onSuccess: () => navigate({ to: '/dashboard' })
-      });
-    },
-  });
+  const { form } = useSignupForm(() => navigate({ to: '/dashboard' }));
 
   return (
     <form onSubmit={(e) => { e.preventDefault(); e.stopPropagation(); form.handleSubmit(); }}>
