@@ -69,7 +69,13 @@ function SignupForm() {
   const { form } = useSignupForm(() => navigate({ to: '/dashboard' }));
 
   return (
-    <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        form.handleSubmit()
+      }}
+    >
       <form.Field name="username" children={(field) => (
         <input value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} />
       )} />
@@ -90,7 +96,13 @@ function LoginForm() {
   const { form } = useLoginForm(() => navigate({ to: '/dashboard' }));
 
   return (
-    <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        form.handleSubmit()
+      }}
+    >
       <form.Field name="username" children={(field) => (
         <input value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} />
       )} />
