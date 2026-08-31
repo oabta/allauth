@@ -121,15 +121,34 @@ For more granular control, you can use the lower-level mutation hooks directly:
 - `useResetPasswordMutation`
 - `useAuthenticate2FAMutation`
 
-### 4. Dynamic Config
-Fetch the backend authentication configuration:
+### 5. Dynamic Config-Driven Forms
+The `django-allauth` headless API dictates required fields dynamically. Use the `useConfig` hook to adapt your UI:
 
 ```tsx
-import { useConfig } from '@oabta/allauth/react';
+import { useConfig, useLoginForm } from '@oabta/allauth/react';
 
-function AuthForms() {
+function LoginForm() {
   const { data: config } = useConfig();
-  // Use config.auth_methods to adapt UI
+  const { form } = useLoginForm();
+  
+  if (!config) return null;
+
+  return (
+    <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }}>
+      {/* Conditionally render based on backend requirements */}
+      {config.login_methods.includes('username') && (
+        <form.Field name="username" children={(field) => (
+          <input value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} placeholder="Username" />
+        )} />
+      )}
+      {config.login_methods.includes('email') && (
+        <form.Field name="email" children={(field) => (
+          <input value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} placeholder="Email" />
+        )} />
+      )}
+      {/* ... password ... */}
+    </form>
+  );
 }
 ```
 
