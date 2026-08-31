@@ -20,6 +20,8 @@ npm install @oabta/allauth
 ```
 
 ### Quick Usage
+
+**1. Setup Provider:**
 ```tsx
 import { AllauthProvider } from '@oabta/allauth/react';
 import { AllauthTransport } from '@oabta/allauth/browser';
@@ -33,6 +35,24 @@ function App() {
     </AllauthProvider>
   );
 }
+```
+
+**2. Use Encapsulated Hooks & Auth Guard:**
+```tsx
+import { useLoginForm } from '@oabta/allauth/react';
+import { createAuthRouteGuard } from '@oabta/allauth/react/router/authGuard';
+
+// Example: LoginForm Component
+function LoginForm() {
+  const { form } = useLoginForm(() => navigate({ to: '/dashboard' }));
+  return <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }}>...</form>;
+}
+
+// Example: Auth Guard for Route
+export const Route = createFileRoute('/dashboard')({
+  beforeLoad: createAuthRouteGuard(queryClient),
+  component: Dashboard,
+});
 ```
 
 ## 🔐 Authentication Hooks & Workflows
