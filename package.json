@@ -26,7 +26,7 @@
     }
   },
   "scripts": {
-    "build": "tsup && tsc-alias",
+    "build": "tsup",
     "prepare": "npm run build",
     "test": "vitest",
     "lint": "tsc --noEmit"
