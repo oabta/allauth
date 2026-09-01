@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useAllauth } from '@/react/context/AllauthProvider';
-import { SignupRequest, VerifyEmailRequest, RequestPasswordRequest, ResetPasswordRequest } from '@/browser/types';
+import { SignupRequest, VerifyEmailRequest, RequestPasswordRequest, ResetPasswordRequest, ChangePasswordRequest } from '@/browser/types';
 
 export const useSignupMutation = () => {
   const { api, queryClient } = useAllauth();
@@ -45,6 +45,13 @@ export const useResetPasswordMutation = () => {
   return useMutation({
     mutationFn: ({ key, password }: { key: string; password: string }) => 
       api.resetPassword(key, password),
+  });
+};
+
+export const useChangePasswordMutation = () => {
+  const { api } = useAllauth();
+  return useMutation({
+    mutationFn: (data: ChangePasswordRequest) => api.changePassword(data),
   });
 };
 

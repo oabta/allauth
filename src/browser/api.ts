@@ -8,6 +8,7 @@ import {
   ConfigurationResponse,
   RequestPasswordRequest,
   ResetPasswordRequest,
+  ChangePasswordRequest,
   MFAAuthenticateRequest,
   MFATrustRequest,
   RequestLoginCodeRequest,
@@ -69,6 +70,14 @@ export class AllAuthApi {
           path: "/auth/password/reset",
           body: { key, password }
       })
+  }
+
+  async changePassword(data: ChangePasswordRequest) {
+    return this.transport.dispatch<ChangePasswordRequest, AuthenticatedResponse>({
+        method: "POST",
+        path: "/auth/password/change",
+        body: data
+    })
   }
 
   async authenticate2FA(code: string) {

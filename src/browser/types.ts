@@ -83,6 +83,11 @@ export interface ResetPasswordRequest {
   password: Password;
 }
 
+export interface ChangePasswordRequest {
+  current_password: Password;
+  new_password: Password;
+}
+
 export interface PasswordResetInfoResponse {
   status: number;
   data: {
