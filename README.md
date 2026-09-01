@@ -48,8 +48,12 @@ function LoginForm() {
 }
 
 // Example: Auth Guard for Route
+// You can customize the login path or excluded paths (e.g., for public auth routes)
 export const Route = createFileRoute('/dashboard')({
-  beforeLoad: createAuthRouteGuard(queryClient),
+  beforeLoad: createAuthRouteGuard(queryClient, { 
+    loginPath: '/login',
+    excludedPaths: ['/login', '/signup', '/forgot-password', '/verify-email'] 
+  }),
   component: Dashboard,
 });
 ```

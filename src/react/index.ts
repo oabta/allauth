@@ -11,4 +11,4 @@ export * from '@/react/hooks/auth/useAuthenticate2FAForm';
 export * from '@/react/hooks/auth/useTrustBrowserForm';
 export * from '@/react/hooks/auth/useRequestLoginCodeForm';
 export * from '@/react/hooks/auth/useConfirmLoginCodeForm';
-export * from '@/react/router/authGuard';
+export { createAuthRouteGuard, type AuthGuardOptions } from '@/react/router/authGuard';
