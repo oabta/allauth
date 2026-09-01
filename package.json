@@ -16,6 +16,10 @@
       "import": "./build/react/index.js",
       "types": "./build/react/index.d.ts"
     },
+    "./react/router/authGuard": {
+      "import": "./build/react/index.js",
+      "types": "./build/react/index.d.ts"
+    },
     "./browser": {
       "import": "./build/browser/index.js",
       "types": "./build/browser/index.d.ts"
