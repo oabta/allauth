@@ -39,8 +39,7 @@ function App() {
 
 **2. Use Encapsulated Hooks & Auth Guard:**
 ```tsx
-import { useLoginForm } from '@oabta/allauth/react';
-import { createAuthRouteGuard } from '@oabta/allauth/react/router/authGuard';
+import { useLoginForm, createAuthRouteGuard } from '@oabta/allauth/react';
 
 // Example: LoginForm Component
 function LoginForm() {
